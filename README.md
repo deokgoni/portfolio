@@ -103,7 +103,7 @@
 <div markdown="1">
 
 <input type="email" th:field="*{email}" th:errorclass="fieldError" class="form-control" placeholder="이메일를 입력하세요">
-<p class="fieldError" th:errors="*{email}">error date</p>
+<p class="fieldError" th:errors="*{email}">이메일 오류</p>
 
 </div>
 </details>
