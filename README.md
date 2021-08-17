@@ -79,6 +79,8 @@
 </br>
 
 ## 5. 핵심 트러블 슈팅
+</br>
+
 ### 5.1. 검증 로직 추가 문제
 - 단순히 타임리프를 통해서 검증처리를 진행하려고 하니 코드도 길어지고 가독성이 떨어진다는 것을 알게 되었습니다.
 
@@ -113,6 +115,80 @@
   
 </div>
 </details>
+
+### 5.2. 로그인 인증 접근 문제
+- 로그인 되지 않은 사용자는 어드민 페이지에 URL을 통해 접근하지 못하게 하기 위해 서블릿 필터를 구현했습니다. 
+- 구현은 했지만 doFilter의 매개변수가 ServletRequest라서 HttpServletResponse를 사용하기 위해서는 형변환을 해줘야 한다는 부분과
+  따로 예외처리를 진행해야한다는 점등 단점이 있었습니다.
+  
+<details>
+<summary><b>기존 코드</b></summary>
+<div markdown="1">
+
+~~~java
+
+  private static final String[] whitelist = {"/", "/members/add", "/login", "/logout","/css/*"};
+  
+ @Override
+ public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+   
+   HttpServletRequest httpRequest = (HttpServletRequest) request;
+   String requestURI = httpRequest.getRequestURI();
+   HttpServletResponse httpResponse = (HttpServletResponse) response;
+  
+  try { 
+       if (PatternMatchUtils.simpleMatch(whitelist, requestURI)) {
+       HttpSession session = httpRequest.getSession(false);
+       
+      if (session == null ||
+        session.getAttribute(SessionConst.LOGIN_MEMBER) == null) {
+         log.info("미인증 사용자 요청 {}", requestURI);
+         //로그인으로 redirect
+         httpResponse.sendRedirect("/login);
+         return; 
+         }
+       }
+       chain.doFilter(request, response);
+   } catch (Exception e) {
+       throw e; 
+   } 
+~~~
+  
+</div>
+</details>
+
+<details>
+<summary><b>기존 코드</b></summary>
+<div markdown="1">
+
+~~~html
+<input type="text" id="email" th:field="*{email}" 
+       th:class="${errors?.containsKey('email')} ? 'form-control field-error' : 'form-control'"
+       class="form-control" placeholder="이메일을 입력하세요">
+ <div class="field-error" th:if="${errors?.containsKey('email')}" th:text="${errors['email']}">
+ 이메일 오류
+ </div>
+~~~
+  
+</div>
+</details>
+
+- 스프링의 BindingResult와 타임리프의 th:field와 th:errors를 이용하면 검증처리가 깔끔해 진다는 점을 찾고 보완했습니다.
+
+<details>
+<summary><b>보완 코드</b></summary>
+<div markdown="1">
+
+~~~html
+<input type="email" th:field="*{email}" 
+       th:errorclass="fieldError" 
+       class="form-control" placeholder="이메일를 입력하세요">
+<p class="fieldError" th:errors="*{email}">이메일 오류</p>
+~~~
+  
+</div>
+</details>
+
 
 - 그런데 게시물이 필터링 된 상태에서 무한 스크롤이 동작하면,  
 필터링 된 게시물들만 DB에 요청해야 하기 때문에 아래의 **기존 코드** 처럼 각 필터별로 다른 Query를 날려야 했습니다.
