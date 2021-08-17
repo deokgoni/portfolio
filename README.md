@@ -86,13 +86,15 @@
 <summary><b>기존 코드</b></summary>
 <div markdown="1">
 
+~~~java
 <input type="text" id="email" th:field="*{email}"
  th:class="${errors?.containsKey('email')} ? 'form-control field-error' : 'form-control'"
  class="form-control" placeholder="이메일을 입력하세요">
  <div class="field-error" th:if="${errors?.containsKey('email')}" th:text="${errors['email']}">
  이메일 오류
  </div>
-
+~~~
+  
 </div>
 </details>
 
@@ -102,9 +104,11 @@
 <summary><b>보완 코드</b></summary>
 <div markdown="1">
 
+~~~java
 <input type="email" th:field="*{email}" th:errorclass="fieldError" class="form-control" placeholder="이메일를 입력하세요">
 <p class="fieldError" th:errors="*{email}">이메일 오류</p>
-
+~~~
+  
 </div>
 </details>
 
