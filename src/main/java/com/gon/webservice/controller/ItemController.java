@@ -39,7 +39,7 @@ public class ItemController {
         }
         Book book = new Book(form.getId(), form.getName(),form.getPrice(),form.getStockQuantity(),form.getAuthor(),form.getIsbn());
         itemService.saveItem(book);
-        return "redirect:/";
+        return "redirect:/home";
     }
 
     @GetMapping("/items")
