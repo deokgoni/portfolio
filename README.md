@@ -22,7 +22,7 @@
 </br>
 
 ## 3. ERD 설계
-![](https://github.com/deokgoni/portfolio/blob/master/src/main/resources/static/image/ERD.png)
+![](https://github.com/deokgoni/portfolio/blob/master/src/main/resources/static/image/erd01.png)
 
 </br>
 
@@ -74,8 +74,8 @@
 ![](https://github.com/deokgoni/portfolio/blob/master/src/main/resources/static/image/flow_repository02.png)
 
 - **컨텐츠 저장** :pushpin: [코드 확인](https://github.com/deokgoni/portfolio/blob/master/src/main/java/com/gon/webservice/repository/MemberRepository.java)
-  - URL 유효성 체크와 이미지, 제목 파싱이 끝난 컨텐츠는 DB에 저장합니다.
-  - 저장된 컨텐츠는 다시 Repository - Service - Controller를 거쳐 화면단에 송출됩니다.
+  - URL 유효성 체크와 파싱이 끝난 정보는 DB에 저장합니다.
+  - DB에서 조회된 정보는 다시 Repository - Service - Controller를 거쳐 화면단에 송출됩니다.
 </br>
 
 ## 5. 핵심 트러블 슈팅
