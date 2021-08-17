@@ -30,15 +30,12 @@
 로그인된 관리자만 접속 가능하고 회원, 도서, 주문에 관련된 등록 및 내역 확인을 제공하며
 아래의 기능의 흐름을 보면, 서비스가 어떻게 동작하는지 알 수 있습니다.  
 
-<details>
-<summary><b>핵심 기능 설명 펼치기</b></summary>
-<div markdown="1">
-
 ### 4.1. 전체 흐름
-![](https://zuminternet.github.io/images/portal/post/2019-04-22-ZUM-Pilot-integer/flow1.png)
+![](https://github.com/deokgoni/portfolio/blob/master/src/main/resources/static/image/ERD.png)
 
 ### 4.2. 사용자 요청
-![](https://zuminternet.github.io/images/portal/post/2019-04-22-ZUM-Pilot-integer/flow_vue.png)
+![](https://github.com/deokgoni/portfolio/blob/master/src/main/resources/static/image/flow_view01.png)
+![](https://github.com/deokgoni/portfolio/blob/master/src/main/resources/static/image/flow_view02.png)
 
 - **URL 정규식 체크** :pushpin: [코드 확인](https://github.com/Integerous/goQuality/blob/b587bbff4dce02e3bec4f4787151a9b6fa326319/frontend/src/components/PostInput.vue#L67)
   - Vue.js로 렌더링된 화면단에서, 사용자가 등록을 시도한 URL의 모양새를 정규식으로 확인합니다.
@@ -49,7 +46,7 @@
 
 ### 4.3. Controller
 
-![](https://zuminternet.github.io/images/portal/post/2019-04-22-ZUM-Pilot-integer/flow_controller.png)
+![](https://github.com/deokgoni/portfolio/blob/master/src/main/resources/static/image/flow_controller.png)
 
 - **요청 처리** :pushpin: [코드 확인](https://github.com/Integerous/goQuality/blob/b2c5e60761b6308f14eebe98ccdb1949de6c4b99/src/main/java/goQuality/integerous/controller/PostRestController.java#L55)
   - Controller에서는 요청을 화면단에서 넘어온 요청을 받고, Service 계층에 로직 처리를 위임합니다.
@@ -59,7 +56,7 @@
 
 ### 4.4. Service
 
-![](https://zuminternet.github.io/images/portal/post/2019-04-22-ZUM-Pilot-integer/flow_service1.png)
+![](https://github.com/deokgoni/portfolio/blob/master/src/main/resources/static/image/flow_Service01.png)
 
 - **Http 프로토콜 추가 및 trim()** :pushpin: [코드 확인]()
   - 사용자가 URL 입력 시 Http 프로토콜을 생략하거나 공백을 넣은 경우,  
@@ -80,17 +77,13 @@
 
 ### 4.5. Repository
 
-![](https://zuminternet.github.io/images/portal/post/2019-04-22-ZUM-Pilot-integer/flow_repository02.png)
+![](https://github.com/deokgoni/portfolio/blob/master/src/main/resources/static/image/flow_repository02.png)
 
 - **컨텐츠 저장** :pushpin: [코드 확인]
   (https://github.com/deokgoni/portfolio/blob/master/src/main/java/com/gon/webservice/repository/MemberRepository.java)
   - URL 유효성 체크와 이미지, 제목 파싱이 끝난 컨텐츠는 DB에 저장합니다.
   - 저장된 컨텐츠는 다시 Repository - Service - Controller를 거쳐 화면단에 송출됩니다.
 
-</div>
-</details>
-
-</br>
 
 ## 5. 핵심 트러블 슈팅
 ### 5.1. 컨텐츠 필터와 페이징 처리 문제
