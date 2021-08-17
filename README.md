@@ -31,27 +31,23 @@
 아래의 기능의 흐름을 보면, 서비스가 어떻게 동작하는지 알 수 있습니다.  
 
 ### 4.1. 전체 흐름
-![](https://github.com/deokgoni/portfolio/blob/master/src/main/resources/static/image/ERD.png)
-
+![](https://github.com/deokgoni/portfolio/blob/master/src/main/resources/static/image/flow.png)
+- 서비스, 리포지토리 계층을 개발하고, 테스트 케이스를 작성해서 검증, 마지막에 웹 계층 적용합니다.
+- 
 ### 4.2. 사용자 요청
 ![](https://github.com/deokgoni/portfolio/blob/master/src/main/resources/static/image/flow_view01.png)
 ![](https://github.com/deokgoni/portfolio/blob/master/src/main/resources/static/image/flow_view02.png)
 
-- **URL 정규식 체크** :pushpin: [코드 확인](https://github.com/Integerous/goQuality/blob/b587bbff4dce02e3bec4f4787151a9b6fa326319/frontend/src/components/PostInput.vue#L67)
-  - Vue.js로 렌더링된 화면단에서, 사용자가 등록을 시도한 URL의 모양새를 정규식으로 확인합니다.
-  - URL의 모양새가 아닌 경우, 에러 메세지를 띄웁니다.
-
-- **Axios 비동기 요청** :pushpin: [코드 확인]()
-  - URL의 모양새인 경우, 컨텐츠를 등록하는 POST 요청을 비동기로 날립니다.
+- **th:errors로 오류 체크** :pushpin: [코드 확인](https://github.com/deokgoni/portfolio/blob/master/src/main/resources/templates/login/loginForm.html)
+  - 타임리프를 사용하여 스프링의 BindingResult 를 활용해서 편리하게 검증 오류를 구현합니다.
+  - th:errors, th:errorclass : th:field 에서 지정한 필드에 오류가 있으면, 에러 메세지를 띄웁니다.
 
 ### 4.3. Controller
 
 ![](https://github.com/deokgoni/portfolio/blob/master/src/main/resources/static/image/flow_controller.png)
 
-- **요청 처리** :pushpin: [코드 확인](https://github.com/Integerous/goQuality/blob/b2c5e60761b6308f14eebe98ccdb1949de6c4b99/src/main/java/goQuality/integerous/controller/PostRestController.java#L55)
+- **요청 처리** :pushpin: [코드 확인](https://github.com/deokgoni/portfolio/blob/master/src/main/java/com/gon/webservice/controller/ItemController.java)
   - Controller에서는 요청을 화면단에서 넘어온 요청을 받고, Service 계층에 로직 처리를 위임합니다.
-
-- **결과 응답** :pushpin: [코드 확인]()
   - Service 계층에서 넘어온 로직 처리 결과(메세지)를 화면단에 응답해줍니다.
 
 ### 4.4. Service
