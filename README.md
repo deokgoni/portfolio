@@ -30,10 +30,12 @@
 로그인된 관리자만 접속 가능하고 회원, 도서, 주문에 관련된 등록 및 내역 확인을 제공하며
 아래의 기능의 흐름을 보면, 서비스가 어떻게 동작하는지 알 수 있습니다.  
 
+
 ### 4.1. 전체 흐름
 ![](https://github.com/deokgoni/portfolio/blob/master/src/main/resources/static/image/flow.png)
 - 서비스, 리포지토리 계층을 개발하고, 테스트 케이스를 작성해서 검증, 마지막에 웹 계층 적용합니다.
-- 
+
+
 ### 4.2. 사용자 요청
 ![](https://github.com/deokgoni/portfolio/blob/master/src/main/resources/static/image/flow_view01.png)
 ![](https://github.com/deokgoni/portfolio/blob/master/src/main/resources/static/image/flow_view02.png)
@@ -41,6 +43,7 @@
 - **th:errors로 오류 체크** :pushpin: [코드 확인](https://github.com/deokgoni/portfolio/blob/master/src/main/resources/templates/login/loginForm.html)
   - 타임리프를 사용하여 스프링의 BindingResult 를 활용해서 편리하게 검증 오류를 구현합니다.
   - th:errors, th:errorclass : th:field 에서 지정한 필드에 오류가 있으면, 에러 메세지를 띄웁니다.
+
 
 ### 4.3. Controller
 
@@ -50,25 +53,19 @@
   - Controller에서는 요청을 화면단에서 넘어온 요청을 받고, Service 계층에 로직 처리를 위임합니다.
   - Service 계층에서 넘어온 로직 처리 결과(메세지)를 화면단에 응답해줍니다.
 
+
 ### 4.4. Service
 
 ![](https://github.com/deokgoni/portfolio/blob/master/src/main/resources/static/image/flow_Service01.png)
 
-- **Http 프로토콜 추가 및 trim()** :pushpin: [코드 확인]()
-  - 사용자가 URL 입력 시 Http 프로토콜을 생략하거나 공백을 넣은 경우,  
-  올바른 URL이 될 수 있도록 Http 프로토콜을 추가해주고, 공백을 제거해줍니다.
+- **트랜잭션 처리** :pushpin: [코드 확인] (https://github.com/deokgoni/portfolio/blob/master/src/main/java/com/gon/webservice/service/OrderService.java)
+  - Service에서는 비즈니스 로직과 트랜잭션 처리를 위임합니다.
+  - @Transactional(readOnly=true) : 데이터의 변경이 없는 읽기 전용 메서드에 사용하여 영속성 컨텍스트를 flush() 하지 않
+                                    으므로 약간의 성능 향상을 제공한다.
 
-- **URL 접속 확인** :pushpin: [코드 확인]()
-  - 화면단에서 모양새만 확인한 URL이 실제 리소스로 연결되는지 HttpUrlConnection으로 테스트합니다.
-  - 이 때, 빠른 응답을 위해 Request Method를 GET이 아닌 HEAD를 사용했습니다.
-  - (HEAD 메소드는 GET 메소드의 응답 결과의 Body는 가져오지 않고, Header만 확인하기 때문에 GET 메소드에 비해 응답속도가 빠릅니다.)
-
-  ![](https://zuminternet.github.io/images/portal/post/2019-04-22-ZUM-Pilot-integer/flow_service2.png)
-
-- **Jsoup 이미지, 제목 파싱** :pushpin: [코드 확인]()
-  - URL 접속 확인결과 유효하면 Jsoup을 사용해서 입력된 URL의 이미지와 제목을 파싱합니다.
-  - 이미지는 Open Graphic Tag를 우선적으로 파싱하고, 없을 경우 첫 번째 이미지와 제목을 파싱합니다.
-  - 컨텐츠에 이미지가 없을 경우, 미리 설정해둔 기본 이미지를 사용하고, 제목이 없을 경우 생략합니다.
+- **비지니스 로직 테스트** :pushpin: [코드 확인](https://github.com/deokgoni/portfolio/blob/master/src/test/java/com/gon/webservice/service/OrderServiceTest.java)
+  - 테스트 요구사항을 정하고 상품주문이 정상 동작하는지 확인하는 테스트입니다. 
+  - Given 절에서 테스트를 위한 회원과 상품을 만들고 When 절에서 실제 상품을 주문하고 Then 절에서 주문 가격이 올바른지, 주문 후 재고 수량이 정확히 줄     었는지 검증합니다.
 
 
 ### 4.5. Repository
