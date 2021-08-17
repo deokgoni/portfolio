@@ -22,13 +22,13 @@
 </br>
 
 ## 3. ERD 설계
-![](https://github.com/deokgoni/portfolio/blob/master/src/main/resources/static/image/img1.png)
+![](https://github.com/deokgoni/portfolio/blob/master/src/main/resources/static/image/ERD.png)
 
 
 ## 4. 핵심 기능
-이 서비스의 핵심 기능은 컨텐츠 등록 기능입니다.  
-사용자는 단지 컨텐츠의 카테고리를 선택하고, URL만 입력하면 끝입니다.  
-이 단순한 기능의 흐름을 보면, 서비스가 어떻게 동작하는지 알 수 있습니다.  
+이 서비스의 핵심 기능은 도서 관리자 화면 기능입니다.  
+로그인된 관리자만 접속 가능하고 회원, 도서, 주문에 관련된 등록 및 내역 확인을 제공하며
+아래의 기능의 흐름을 보면, 서비스가 어떻게 동작하는지 알 수 있습니다.  
 
 <details>
 <summary><b>핵심 기능 설명 펼치기</b></summary>
