@@ -24,17 +24,18 @@
 ## 3. ERD 설계
 ![](https://github.com/deokgoni/portfolio/blob/master/src/main/resources/static/image/ERD.png)
 
+</br>
 
 ## 4. 핵심 기능
 이 서비스의 핵심 기능은 도서 관리자 화면 기능입니다.  
 로그인된 관리자만 접속 가능하고 회원, 도서, 주문에 관련된 등록 및 내역 확인을 제공하며
 아래의 기능의 흐름을 보면, 서비스가 어떻게 동작하는지 알 수 있습니다.  
 
-
+</br>
 ### 4.1. 전체 흐름
 ![](https://github.com/deokgoni/portfolio/blob/master/src/main/resources/static/image/flow.png)
 - 서비스, 리포지토리 계층을 개발하고, 테스트 케이스를 작성해서 검증, 마지막에 웹 계층 적용합니다.
-
+</br>
 
 ### 4.2. 사용자 요청
 ![](https://github.com/deokgoni/portfolio/blob/master/src/main/resources/static/image/flow_view01.png)
@@ -43,7 +44,7 @@
 - **th:errors로 오류 체크** :pushpin: [코드 확인](https://github.com/deokgoni/portfolio/blob/master/src/main/resources/templates/login/loginForm.html)
   - 타임리프를 사용하여 스프링의 BindingResult 를 활용해서 편리하게 검증 오류를 구현합니다.
   - th:errors, th:errorclass : th:field 에서 지정한 필드에 오류가 있으면, 에러 메세지를 띄웁니다.
-
+</br>
 
 ### 4.3. Controller
 
@@ -52,7 +53,7 @@
 - **요청 처리** :pushpin: [코드 확인](https://github.com/deokgoni/portfolio/blob/master/src/main/java/com/gon/webservice/controller/ItemController.java)
   - Controller에서는 요청을 화면단에서 넘어온 요청을 받고, Service 계층에 로직 처리를 위임합니다.
   - Service 계층에서 넘어온 로직 처리 결과(메세지)를 화면단에 응답해줍니다.
-
+</br>
 
 ### 4.4. Service
 
@@ -66,7 +67,7 @@
 - **비지니스 로직 테스트** :pushpin: [코드 확인](https://github.com/deokgoni/portfolio/blob/master/src/test/java/com/gon/webservice/service/OrderServiceTest.java)
   - 테스트 요구사항을 정하고 상품주문이 정상 동작하는지 확인하는 테스트입니다. 
   - Given 절에서 테스트를 위한 회원과 상품을 만들고 When 절에서 실제 상품을 주문하고 Then 절에서 주문 가격이 올바른지, 주문 후 재고 수량이 정확히 줄     었는지 검증합니다.
-
+</br>
 
 ### 4.5. Repository
 
@@ -75,7 +76,7 @@
 - **컨텐츠 저장** :pushpin: [코드 확인](https://github.com/deokgoni/portfolio/blob/master/src/main/java/com/gon/webservice/repository/MemberRepository.java)
   - URL 유효성 체크와 이미지, 제목 파싱이 끝난 컨텐츠는 DB에 저장합니다.
   - 저장된 컨텐츠는 다시 Repository - Service - Controller를 거쳐 화면단에 송출됩니다.
-
+</br>
 
 ## 5. 핵심 트러블 슈팅
 ### 5.1. 컨텐츠 필터와 페이징 처리 문제
