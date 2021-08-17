@@ -28,19 +28,11 @@ public class MemberService {
      */
     @Transactional
     public Long join(Member member) throws IllegalStateException{
-        validateDuplicateMember(member);
+
         memberRepository.save(member);
         //persist된 상태이기 때문에 영속성컨텍스트(key= member_id / value=member)에서 해당 id값을 가져올 수 있다.
         //DB에서 가져올 필요가 없음..
         return member.getId();
-    }
-
-    //중복 회원 검증
-    private void validateDuplicateMember(Member member) {
-        List<Member> findMembers = memberRepository.findByName(member.getName());
-        if(!findMembers.isEmpty()){
-            throw new IllegalStateException("이미 존재하는 회원입니다.");//객체의 상태가 매소드 호출에는 부적절한 경우
-        }
     }
 
     //회원 전체 조회
@@ -52,4 +44,5 @@ public class MemberService {
     public Member findOne(Long memberId){
         return memberRepository.findOne(memberId);
     }
+
 }

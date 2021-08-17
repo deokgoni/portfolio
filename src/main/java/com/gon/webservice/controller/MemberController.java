@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -39,7 +40,7 @@ public class MemberController {
         Address address = new Address(form.getZipcode(), form.getStreet(), form.getDetails());
         Member member = new Member(form.getName(),form.getCon(), form.getEmail(), form.getPassword(), address);
         memberService.join(member);
-        return "redirect:/";
+        return "redirect:/home";
     }
 
     @GetMapping("/members")
