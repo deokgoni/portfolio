@@ -2,7 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <div class="header" th:fragment="bodyHeader">
     <ul class="nav nav-pills pull-right">
-        <li><a href="/">Home</a></li>
+        <li><a href="/" th:action="@{/logout}">로그아웃</a></li>
     </ul>
-    <a href="/"><h3 class="text-muted">HELLO</h3></a>
+    <h3 class="text-muted">BOOK ADMIN</h3>
 </div>
+
+
+

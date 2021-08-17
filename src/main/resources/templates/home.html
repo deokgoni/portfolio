@@ -9,7 +9,7 @@
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
 <!--    <h4 class="mb-3" th:text="|로그인: ${member.name}|">로그인 사용자 이름</h4>-->
     <div class="jumbotron">
-        <h1>BOOK ADMIN</h1>
+        <h4 class="text-muted" th:text="|${member.name} 님이 로그인되었습니다.|">로그인 사용자 이름</h4>
         <p class="lead"><h4>직원 관리</h4></p>
         <p>
             <a class="btn btn-lg btn-secondary" href="/members/new">직원 등록</a>
