@@ -80,9 +80,10 @@
 
 ### 4.5. Repository
 
-![](https://zuminternet.github.io/images/portal/post/2019-04-22-ZUM-Pilot-integer/flow_repo.png)
+![](https://zuminternet.github.io/images/portal/post/2019-04-22-ZUM-Pilot-integer/flow_repository02.png)
 
-- **컨텐츠 저장** :pushpin: [코드 확인]()
+- **컨텐츠 저장** :pushpin: [코드 확인]
+  (https://github.com/deokgoni/portfolio/blob/master/src/main/java/com/gon/webservice/repository/MemberRepository.java)
   - URL 유효성 체크와 이미지, 제목 파싱이 끝난 컨텐츠는 DB에 저장합니다.
   - 저장된 컨텐츠는 다시 Repository - Service - Controller를 거쳐 화면단에 송출됩니다.
 
