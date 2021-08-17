@@ -8,7 +8,6 @@
         .container {
             max-width: 560px;
         }
-
         .field-error {
             border-color: #dc3545;
             color: #dc3545;
@@ -26,8 +25,8 @@
                th:text="${err}">전체 오류 메시지</p>
         </div>
         <div>
-            <label for="loginId">관리자 ID (이메일)</label>
-            <input type="text" id="loginId" th:field="*{email}" class="form-control" th:errorclass="field-error">
+            <label for="email">관리자 ID (이메일)</label>
+            <input type="text" id="email" th:field="*{email}" class="form-control" th:errorclass="field-error">
             <div class="field-error" th:errors="*{email}"/>
         </div>
         <div>

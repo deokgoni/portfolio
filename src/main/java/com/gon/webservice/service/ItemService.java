@@ -15,6 +15,7 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
 
+    //readOnly : default 값 false
     @Transactional
     public void saveItem(Item item){
         itemRepository.save(item);

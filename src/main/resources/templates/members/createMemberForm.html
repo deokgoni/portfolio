@@ -20,7 +20,7 @@
         <div class="form-group">
             <label th:for="email">아이디 (이메일)</label>
             <input type="email" th:field="*{email}" th:errorclass="fieldError" class="form-control" placeholder="아이디를 입력하세요">
-            <p class="fieldError" th:errors="*{email}">Incorrect date</p>
+            <p class="fieldError" th:errors="*{email}">error date</p>
         </div>
         <div class="form-group">
             <label th:for="password">비밀번호</label>
@@ -48,10 +48,6 @@
         <div class="form-group">
             <input class="form-control" placeholder="상세주소" th:field="*{details}" type="text"  />
         </div>
-<!--        <div class="form-group">-->
-<!--            <label th:for="zipcode">우편번호</label>-->
-<!--            <input type="text" th:field="*{zipcode}" class="form-control" placeholder="우편번호를 입력하세요">-->
-<!--        </div>-->
         <button type="submit" class="btn btn-primary">가입</button>
     </form>
     <br/>

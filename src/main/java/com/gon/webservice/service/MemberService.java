@@ -28,10 +28,7 @@ public class MemberService {
      */
     @Transactional
     public Long join(Member member) throws IllegalStateException{
-
         memberRepository.save(member);
-        //persist된 상태이기 때문에 영속성컨텍스트(key= member_id / value=member)에서 해당 id값을 가져올 수 있다.
-        //DB에서 가져올 필요가 없음..
         return member.getId();
     }
 
