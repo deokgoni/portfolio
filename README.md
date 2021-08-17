@@ -79,65 +79,39 @@
 </br>
 
 ## 5. 핵심 트러블 슈팅
-### 5.1. 컨텐츠 필터와 페이징 처리 문제
-- 저는 이 서비스가 페이스북이나 인스타그램 처럼 가볍게, 자주 사용되길 바라는 마음으로 개발했습니다.  
-때문에 페이징 처리도 무한 스크롤을 적용했습니다.
-
-- 하지만 [무한스크롤, 페이징 혹은 “더보기” 버튼? 어떤 걸 써야할까](https://cyberx.tistory.com/82) 라는 글을 읽고 무한 스크롤의 단점들을 알게 되었고,  
-다양한 기준(카테고리, 사용자, 등록일, 인기도)의 게시물 필터 기능을 넣어서 이를 보완하고자 했습니다.
-
-- 그런데 게시물이 필터링 된 상태에서 무한 스크롤이 동작하면,  
-필터링 된 게시물들만 DB에 요청해야 하기 때문에 아래의 **기존 코드** 처럼 각 필터별로 다른 Query를 날려야 했습니다.
+### 5.1. 검증 로직 추가 문제
+- 단순히 타임리프를 통해서 검증처리를 진행하려고 하니 코드도 길어지고 가독성이 떨어진다는 것을 알게 되었습니다.
 
 <details>
 <summary><b>기존 코드</b></summary>
 <div markdown="1">
 
-~~~java
-/**
- * 게시물 Top10 (기준: 댓글 수 + 좋아요 수)
- * @return 인기순 상위 10개 게시물
- */
-public Page<PostResponseDto> listTopTen() {
-
-    PageRequest pageRequest = PageRequest.of(0, 10, Sort.Direction.DESC, "rankPoint", "likeCnt");
-    return postRepository.findAll(pageRequest).map(PostResponseDto::new);
-}
-
-/**
- * 게시물 필터 (Tag Name)
- * @param tagName 게시물 박스에서 클릭한 태그 이름
- * @param pageable 페이징 처리를 위한 객체
- * @return 해당 태그가 포함된 게시물 목록
- */
-public Page<PostResponseDto> listFilteredByTagName(String tagName, Pageable pageable) {
-
-    return postRepository.findAllByTagName(tagName, pageable).map(PostResponseDto::new);
-}
-
-// ... 게시물 필터 (Member) 생략 
-
-/**
- * 게시물 필터 (Date)
- * @param createdDate 게시물 박스에서 클릭한 날짜
- * @return 해당 날짜에 등록된 게시물 목록
- */
-public List<PostResponseDto> listFilteredByDate(String createdDate) {
-
-    // 등록일 00시부터 24시까지
-    LocalDateTime start = LocalDateTime.of(LocalDate.parse(createdDate), LocalTime.MIN);
-    LocalDateTime end = LocalDateTime.of(LocalDate.parse(createdDate), LocalTime.MAX);
-
-    return postRepository
-                    .findAllByCreatedAtBetween(start, end)
-                    .stream()
-                    .map(PostResponseDto::new)
-                    .collect(Collectors.toList());
-    }
-~~~
+<input type="text" id="email" th:field="*{email}"
+ th:class="${errors?.containsKey('email')} ? 'form-control field-error' : 'form-control'"
+ class="form-control" placeholder="이메일을 입력하세요">
+ <div class="field-error" th:if="${errors?.containsKey('email')}" th:text="${errors['email']}">
+ 이메일 오류
+ </div>
 
 </div>
 </details>
+
+- 스프링의 BindingResult와 타임리프의 th:field와 th:errors를 이용하면 검증처리가 깔끔해 진다는 점을 찾고 보완했습니다.
+
+<details>
+<summary><b>보완 코드</b></summary>
+<div markdown="1">
+
+<input type="email" th:field="*{email}" th:errorclass="fieldError" class="form-control" placeholder="이메일를 입력하세요">
+<p class="fieldError" th:errors="*{email}">error date</p>
+
+</div>
+</details>
+
+- 그런데 게시물이 필터링 된 상태에서 무한 스크롤이 동작하면,  
+필터링 된 게시물들만 DB에 요청해야 하기 때문에 아래의 **기존 코드** 처럼 각 필터별로 다른 Query를 날려야 했습니다.
+
+
 
 - 이 때 카테고리(tag)로 게시물을 필터링 하는 경우,  
 각 게시물은 최대 3개까지의 카테고리(tag)를 가질 수 있어 해당 카테고리를 포함하는 모든 게시물을 질의해야 했기 때문에  
