@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>BOOK ADMIN</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+<!--    <h4 class="mb-3" th:text="|로그인: ${member.name}|">로그인 사용자 이름</h4>-->
+    <div class="jumbotron">
+        <h1>BOOK ADMIN</h1>
+        <p class="lead"><h4>직원 관리</h4></p>
+        <p>
+            <a class="btn btn-lg btn-secondary" href="/members/new">직원 등록</a>
+            <a class="btn btn-lg btn-secondary" href="/members">직원 목록</a>
+        </p>
+        <p class="lead"><h4>도서 관리</h4></p>
+        <p>
+            <a class="btn btn-lg btn-dark" href="/items/new">도서 등록</a>
+            <a class="btn btn-lg btn-dark" href="/items">도서 목록</a>
+        </p>
+        <p class="lead"><h4>주문 관리</h4></p>
+        <p>
+            <a class="btn btn-lg btn-info" href="/order">주문 등록</a>
+            <a class="btn btn-lg btn-info" href="/orders">주문 내역</a>
+        </p>
+    </div>
+    <div th:replace="fragments/footer :: footer"/>
+</div> <!-- /container -->
+</body>
+</html>
