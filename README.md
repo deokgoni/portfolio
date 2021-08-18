@@ -118,6 +118,97 @@
 
 ### 5.2. 로그인 인증 접근 문제
 - 로그인 되지 않은 사용자는 어드민 페이지에 URL을 통해 접근하지 못하게 하기 위해 서블릿 필터를 구현했습니다. 
+- 기본 로그인이나 로그아웃 회원가입을 제외하고 미인증 유저는 접근하지 못하게 하기 위해서는 Controller에서 session 확인을 진행하는 것은
+  중복된 코드가 계속 발생하고 예기치않은 에러를 발생시킬 수 있기 때문에 필터와 인터셉터로 둘다 적용한 결과, 서블릿 필터보다 편리하고 
+  다양한 기능을 지원하기에 인터셉터를 통해 처리를 구현했습니다.
+  
+  <details>
+<summary><b>필터 코드</b></summary>
+<div markdown="1">
+
+~~~java
+  private static final String[] Blocklist = {"/", "/members/new", "/login", "/logout", "/css/**", "/*.ico", "/error", "/js/**"};
+  
+ @Override
+ public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+   
+   HttpServletRequest httpRequest = (HttpServletRequest) request;
+   String requestURI = httpRequest.getRequestURI();
+   HttpServletResponse httpResponse = (HttpServletResponse) response;
+  /**
+  *  LoginFilter
+  */
+  try { 
+       if (PatternMatchUtils.simpleMatch(Blocklist, requestURI)) {
+       HttpSession session = httpRequest.getSession(false);
+       
+      //인증되지 않은 사용자
+      if (session == null || session.getAttribute("sessionName") == null) {
+         
+         //로그인으로 redirect
+         httpResponse.sendRedirect("/login);
+         return; 
+         }
+       }
+       chain.doFilter(request, response);
+   } catch (Exception e) {
+       throw e; 
+   } 
+  
+   /**
+  *  WebConfig
+  */
+  @Bean
+public FilterRegistrationBean loginCheckFilter() {
+   FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
+   filterRegistrationBean.setFilter(new LoginFilter());
+   filterRegistrationBean.setOrder(1);
+   filterRegistrationBean.addUrlPatterns("/*");
+   return filterRegistrationBean;
+}
+~~~
+  
+</div>
+</details>
+
+<details>
+<summary><b>인터셉터 코드</b></summary>
+<div markdown="1">
+
+~~~java
+  
+  @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        //세션 생성
+        HttpSession session = request.getSession(false);
+        //인증되지 않은 사용자
+        if (session == null || session.getAttribute("sessionName") == null) {
+            //로그인으로 redirect
+            response.sendRedirect("/login");
+            return false;
+        }
+        return true;
+    }
+  
+   /**
+  *  WebConfig
+  */
+   @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new LoginInterceptor())
+                .order(1)
+                .addPathPatterns("/**")
+                .excludePathPatterns("/", "/members/new", "/login", "/logout", "/css/**", "/*.ico", "/error", "/js/**");
+    }
+~~~
+  
+</div>
+</details>
+
+  
+  
+  
+  
 - 구현은 했지만 doFilter의 매개변수가 ServletRequest라서 HttpServletResponse를 사용하기 위해서는 형변환을 해줘야 한다는 부분과
   따로 예외처리를 진행해야한다는 점등 단점이 있었습니다.
   
@@ -127,7 +218,7 @@
 
 ~~~java
 
-  private static final String[] whitelist = {"/", "/members/add", "/login", "/logout","/css/*"};
+  private static final String[] Blocklist = {"/", "/members/add", "/login", "/logout","/css/*"};
   
  @Override
  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -140,9 +231,9 @@
        if (PatternMatchUtils.simpleMatch(whitelist, requestURI)) {
        HttpSession session = httpRequest.getSession(false);
        
-      if (session == null ||
-        session.getAttribute(SessionConst.LOGIN_MEMBER) == null) {
-         log.info("미인증 사용자 요청 {}", requestURI);
+      //인증되지 않은 사용자
+      if (session == null || session.getAttribute("session") == null) {
+         
          //로그인으로 redirect
          httpResponse.sendRedirect("/login);
          return; 
