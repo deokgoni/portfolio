@@ -62,11 +62,11 @@
 - **트랜잭션 처리** :pushpin: [코드 확인](https://github.com/deokgoni/portfolio/blob/master/src/main/java/com/gon/webservice/service/OrderService.java)
   - Service에서는 비즈니스 로직과 트랜잭션 처리를 위임합니다.
   - @Transactional(readOnly=true) : 데이터의 변경이 없는 읽기 전용 메서드에 사용하여 영속성 컨텍스트를 flush() 하지 않
-                                    으므로 약간의 성능 향상을 제공한다.
+                                    으므로 약간의 성능 향상을 제공합니다.
 
 - **비지니스 로직 테스트** :pushpin: [코드 확인](https://github.com/deokgoni/portfolio/blob/master/src/test/java/com/gon/webservice/service/OrderServiceTest.java)
   - 테스트 요구사항을 정하고 상품주문이 정상 동작하는지 확인하는 테스트입니다. 
-  - Given 절에서 테스트를 위한 회원과 상품을 만들고 When 절에서 실제 상품을 주문하고 Then 절에서 주문 가격이 올바른지, 주문 후 재고 수량이 정확히 줄     었는지 검증합니다.
+  - Given 절에서 테스트를 위한 회원과 상품을 만들고 When 절에서 실제 상품을 주문하고 Then 절에서 주문 가격이 올바른지, 주문 후 재고 수량이 정확히 줄었는지 검증합니다.
 </br>
 
 ### 4.5. Repository
