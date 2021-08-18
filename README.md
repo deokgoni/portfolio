@@ -122,11 +122,15 @@
   중복된 코드가 계속 발생하고 예기치않은 에러를 발생시킬 수 있기 때문에 필터와 인터셉터로 둘다 적용한 결과, 서블릿 필터보다 편리하고 
   다양한 기능을 지원하기에 인터셉터를 통해 처리를 구현했습니다.
   
-  <details>
+ <details>
 <summary><b>필터 코드</b></summary>
 <div markdown="1">
 
 ~~~java
+  
+   /**
+  *  LoginFilter
+  */
   private static final String[] Blocklist = {"/", "/members/new", "/login", "/logout", "/css/**", "/*.ico", "/error", "/js/**"};
   
  @Override
@@ -135,9 +139,7 @@
    HttpServletRequest httpRequest = (HttpServletRequest) request;
    String requestURI = httpRequest.getRequestURI();
    HttpServletResponse httpResponse = (HttpServletResponse) response;
-  /**
-  *  LoginFilter
-  */
+ 
   try { 
        if (PatternMatchUtils.simpleMatch(Blocklist, requestURI)) {
        HttpSession session = httpRequest.getSession(false);
