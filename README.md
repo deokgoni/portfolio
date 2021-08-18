@@ -128,9 +128,9 @@
 
 ~~~java
   
-   /**
-  *  LoginFilter
-  */
+  /**
+     * LoginFilter
+     */
   private static final String[] Blocklist = {"/", "/members/new", "/login", "/logout", "/css/**", "/*.ico", "/error", "/js/**"};
   
  @Override
@@ -157,9 +157,9 @@
        throw e; 
    } 
   
-   /**
-  *  WebConfig
-  */
+  /**
+     * WebConfig
+     */
   @Bean
 public FilterRegistrationBean loginCheckFilter() {
    FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
@@ -179,6 +179,9 @@ public FilterRegistrationBean loginCheckFilter() {
 
 ~~~java
   
+  /**
+     * LoginInterceptor
+     */
   @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         //세션 생성
@@ -192,9 +195,9 @@ public FilterRegistrationBean loginCheckFilter() {
         return true;
     }
   
-   /**
-  *  WebConfig
-  */
+    /**
+     * WebConfig
+     */
    @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoginInterceptor())
