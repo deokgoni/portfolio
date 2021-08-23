@@ -141,7 +141,7 @@
    HttpServletResponse httpResponse = (HttpServletResponse) response;
  
   try { 
-       if (PatternMatchUtils.simpleMatch(PassList, requestURI)) {
+       if (!PatternMatchUtils.simpleMatch(PassList, requestURI)) {
        HttpSession session = httpRequest.getSession(false);
        
       //인증되지 않은 사용자
