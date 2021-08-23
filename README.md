@@ -52,6 +52,7 @@
 
 - **요청 처리** :pushpin: [코드 확인](https://github.com/deokgoni/portfolio/blob/master/src/main/java/com/gon/webservice/controller/ItemController.java)
   - Controller에서는 요청을 화면단에서 넘어온 요청을 받고, Service 계층에 로직 처리를 위임합니다.
+  - BookDto는 화면 기능에 필요한 부분을 담당합니다.
   - Service 계층에서 넘어온 로직 처리 결과(메세지)를 화면단에 응답해줍니다.
 </br>
 
