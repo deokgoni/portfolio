@@ -131,7 +131,7 @@
   /**
      * LoginFilter
      */
-  private static final String[] Blocklist = {"/", "/members/new", "/login", "/logout", "/css/**", "/*.ico", "/error", "/js/**"};
+  private static final String[] PassList = {"/", "/members/new", "/login", "/logout", "/css/**", "/*.ico", "/error", "/js/**"};
   
  @Override
  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -141,7 +141,7 @@
    HttpServletResponse httpResponse = (HttpServletResponse) response;
  
   try { 
-       if (PatternMatchUtils.simpleMatch(Blocklist, requestURI)) {
+       if (PatternMatchUtils.simpleMatch(PassList, requestURI)) {
        HttpSession session = httpRequest.getSession(false);
        
       //인증되지 않은 사용자
